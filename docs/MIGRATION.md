@@ -12,7 +12,8 @@ Source baseline commit: `ee177a49ec484d13ca70126fa0842ef65b6547a8`
 - model switching
 - drag and wheel scaling with local persistence
 - motion and expression triggering
-- mouth parameter driving
+- eye animation and idle gaze
+- text/audio-driven mouth movement
 - browser TTS and optional HTTP TTS
 - browser speech recognition
 - transparent always-on-top Electron window
@@ -28,6 +29,8 @@ Source baseline commit: `ee177a49ec484d13ca70126fa0842ef65b6547a8`
 
 HTTP TTS can be restored by setting `VITE_TTS_ENDPOINT`. The endpoint must accept `POST { "text": "..." }` and return playable audio bytes.
 
-## Asset policy
+## Asset migration
 
-The original branch contains many large third-party character models. They are not copied automatically into this standalone public repository. Keep model packs separate unless their redistribution terms are confirmed.
+The complete `frontend/public/live2d/` snapshot from the source baseline is imported into `public/live2d/`, including Cubism Core and the Rice, 符玄, 藿藿, 简, 镜流, 卡芙卡, 妮可, 知更鸟 and 秧秧 model packages. `waifu-tips.json` and `test-live2d.html` are copied from the same source snapshot.
+
+The import is pinned to the exact source commit so later changes on the control-panel `desktop` branch cannot silently alter this standalone repository.

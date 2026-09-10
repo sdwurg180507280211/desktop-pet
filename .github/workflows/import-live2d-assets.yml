@@ -1,0 +1,72 @@
+name: Import Live2D assets once
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/import-live2d-assets.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: import-live2d-assets
+  cancel-in-progress: false
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout desktop-pet
+        uses: actions/checkout@v4
+
+      - name: Checkout source snapshot
+        uses: actions/checkout@v4
+        with:
+          repository: sdwurg180507280211/metersphere-control-panel
+          ref: ee177a49ec484d13ca70126fa0842ef65b6547a8
+          path: .source-control-panel
+
+      - name: Copy Live2D assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf public/live2d
+          mkdir -p public/live2d
+          cp -a .source-control-panel/frontend/public/live2d/. public/live2d/
+          cp .source-control-panel/frontend/public/waifu-tips.json public/waifu-tips.json
+          cp .source-control-panel/frontend/public/test-live2d.html public/test-live2d.html
+          rm -rf .source-control-panel
+
+          required=(
+            public/live2d/live2dcubismcore.min.js
+            public/live2d/rice/Rice.model3.json
+            public/live2d/fuxuan/符玄.model3.json
+            public/live2d/huohuo/藿藿.model3.json
+            public/live2d/jian/简.model3.json
+            public/live2d/jingliu/镜流.model3.json
+            public/live2d/kafka/kafuka1.model3.json
+            public/live2d/nicole/Nicole.model3.json
+            public/live2d/robin/知更鸟.model3.json
+            public/live2d/yangyang/秧秧.model3.json
+          )
+          for file in "${required[@]}"; do
+            test -f "$file" || { echo "Missing required asset: $file"; exit 1; }
+          done
+
+          echo "Imported Live2D asset size:"
+          du -sh public/live2d
+
+      - name: Commit imported assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/live2d public/waifu-tips.json public/test-live2d.html
+          if git diff --cached --quiet; then
+            echo 'Assets are already up to date.'
+            exit 0
+          fi
+          git commit -m 'chore: import Live2D model assets'
+          git push origin HEAD:main

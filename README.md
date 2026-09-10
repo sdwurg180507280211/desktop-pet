@@ -33,16 +33,23 @@ npm run dist:win
 
 ## Live2D assets
 
-This repository does not automatically redistribute the original large character model packs or Cubism Core. Put the runtime and models under `public/live2d/` following `public/live2d/README.md`.
+The Live2D runtime and the character assets from the source `desktop` snapshot are imported into `public/live2d/`.
 
-The default configuration expects:
+Included models:
 
-```text
-public/live2d/live2dcubismcore.min.js
-public/live2d/rice/Rice.model3.json
-```
+- Rice
+- 符玄
+- 藿藿
+- 简
+- 镜流
+- 卡芙卡
+- 妮可
+- 知更鸟
+- 秧秧
 
-Additional model paths are defined in `src/live2d/models.js`.
+Cubism Core is stored at `public/live2d/live2dcubismcore.min.js`. Model paths are defined in `src/live2d/models.js`.
+
+The asset import is pinned to source commit `ee177a49ec484d13ca70126fa0842ef65b6547a8` so the standalone repository has a reproducible snapshot.
 
 ## Optional HTTP TTS
 
