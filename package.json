@@ -13,9 +13,9 @@
     "electron:dev": "concurrently -k \"vite --host 127.0.0.1\" \"wait-on http://127.0.0.1:5173 && cross-env VITE_DEV_SERVER_URL=http://127.0.0.1:5173 electron .\"",
     "smoke:mac": "cross-env DESKTOP_PET_SMOKE=1 electron . --smoke",
     "dist": "npm run build && electron-builder",
-    "dist:mac": "npm run build && electron-builder --mac dmg --x64 --arm64",
-    "package:mac:dir": "electron-builder --mac dir",
-    "package:mac": "electron-builder --mac dmg --x64 --arm64",
+    "dist:mac": "npm run build && electron-builder --mac dmg --x64 --arm64 --publish never",
+    "package:mac:dir": "electron-builder --mac dir --publish never",
+    "package:mac": "electron-builder --mac dmg --x64 --arm64 --publish never",
     "dist:win": "npm run build && electron-builder --win nsis portable"
   },
   "dependencies": {
