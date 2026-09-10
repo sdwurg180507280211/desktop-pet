@@ -10,6 +10,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Verify Live2D assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          required=(
+            public/live2d/live2dcubismcore.min.js
+            public/live2d/rice/Rice.model3.json
+            public/live2d/fuxuan/符玄.model3.json
+            public/live2d/huohuo/藿藿.model3.json
+            public/live2d/jian/简.model3.json
+            public/live2d/jingliu/镜流.model3.json
+            public/live2d/kafka/kafuka1.model3.json
+            public/live2d/nicole/Nicole.model3.json
+            public/live2d/robin/知更鸟.model3.json
+            public/live2d/yangyang/秧秧.model3.json
+          )
+          for file in "${required[@]}"; do
+            test -f "$file" || { echo "Missing required asset: $file"; exit 1; }
+          done
+          echo "Live2D assets present: $(du -sh public/live2d | cut -f1)"
+
       - uses: actions/setup-node@v4
         with:
           node-version: 22
