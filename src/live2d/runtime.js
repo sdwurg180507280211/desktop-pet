@@ -24,7 +24,8 @@ export async function loadLive2DRuntime() {
 
   runtimePromise = (async () => {
     if (!window.Live2DCubismCore) {
-      await loadScript('/live2d/live2dcubismcore.min.js')
+      const coreUrl = `${import.meta.env.BASE_URL}live2d/live2dcubismcore.min.js`
+      await loadScript(coreUrl)
     }
 
     const PIXI = await import('pixi.js')

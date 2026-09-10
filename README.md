@@ -6,29 +6,38 @@ The extraction keeps the Live2D interaction layer independent from MeterSphere: 
 
 Source baseline: `ee177a49ec484d13ca70126fa0842ef65b6547a8`.
 
-## Run
+## macOS
+
+macOS is the primary desktop target.
+
+Development mode:
+
+```bash
+npm install
+npm run electron:dev
+```
+
+Build and package DMGs for both Apple Silicon and Intel Macs:
+
+```bash
+npm run dist:mac
+```
+
+The generated `.dmg` files are written to `release/`. CI also uploads them as the `desktop-pet-macos` artifact after a real packaged-app smoke test loads the default Rice Live2D model successfully.
+
+The development DMG is unsigned and not notarized. When testing a downloaded CI build on macOS, Finder may require Control-click / right-click -> Open for the first launch.
+
+## Web development
 
 ```bash
 npm install
 npm run dev
 ```
 
-For the desktop window:
-
-```bash
-npm run electron:dev
-```
-
 Build the web bundle:
 
 ```bash
 npm run build
-```
-
-Package Windows installers:
-
-```bash
-npm run dist:win
 ```
 
 ## Live2D assets
@@ -47,7 +56,7 @@ Included models:
 - 知更鸟
 - 秧秧
 
-Cubism Core is stored at `public/live2d/live2dcubismcore.min.js`. Model paths are defined in `src/live2d/models.js`.
+Cubism Core is stored at `public/live2d/live2dcubismcore.min.js`. Model paths are defined in `src/live2d/models.js` and resolve relative to the packaged application, so the same code works under Vite development and Electron production packaging.
 
 The asset import is pinned to source commit `ee177a49ec484d13ca70126fa0842ef65b6547a8` so the standalone repository has a reproducible snapshot.
 

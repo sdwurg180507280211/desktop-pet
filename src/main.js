@@ -52,9 +52,11 @@ async function loadModel(modelId) {
     else await controller.switchModel(modelId)
     localStorage.setItem('desktop-pet-model', modelId)
     showStatus('')
+    window.desktopPet?.reportReady(modelId)
   } catch (error) {
     console.error(error)
     showStatus(`模型加载失败：${error.message}。请检查 public/live2d 资源。`, true)
+    window.desktopPet?.reportError(error?.message || error)
   }
 }
 
